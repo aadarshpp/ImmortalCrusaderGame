@@ -44,10 +44,6 @@ void buildScene(Scene* scene, Character* warriorPointer, int frameNo, int ressur
         box = scene->bounds[boxCoordinates[0] + boxCoordinates[1]*scene->boundsCols];
     }
     
-    char msg[100];
-    sprintf(msg, "%d %d\n%d %d\n%d\n", (warriorPointer->x), (warriorPointer->y), boxCoordinates[0], boxCoordinates[1], box);
-    DrawText(msg, 10, 10, 40, WHITE);
-    
     Parameters parameters = {warriorPointer, &callShowClue, &isTrueClue, &falseClueIndex, original_x, original_y};
     if (callShowClue && (warriorPointer->sceneName==CI1 || warriorPointer->sceneName==CI2)) {
         ClueIsland clueIsland = (warriorPointer->sceneName==CI1) ? clue_island_one : clue_island_two;
