@@ -65,7 +65,7 @@ Texture2D BgImages[20];
 void setUpBgImages() {
     BgImages[START] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/start.png"), GetMonitorHeight(0)); 
     BgImages[CI1] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/cr1.png"), GetMonitorHeight(0));
-    BgImages[CI2] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/cr2.png"), GetMonitorHeight(0));
+    BgImages[CI2] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/CI2n.png"), GetMonitorHeight(0));
     BgImages[JN1] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/JN1.png"), GetMonitorHeight(0));
     BgImages[CD1] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/cd1.png"), GetMonitorHeight(0));
     BgImages[CD2] = resizeImage(LoadTexture(RESOURCE_PATH "/BG/cd2.png"), GetMonitorHeight(0));
@@ -221,7 +221,7 @@ void setUpCI2Scene() {
     
     static int CI2Bounds[10][20] = {
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        {1,0,0,0,0,0,0,0,0,2,1,2,0,0,0,0,0,0,0,1},
+        {1,1,1,1,1,0,0,0,0,2,1,2,0,0,0,0,0,0,0,1},
         {1,0,0,6,6,6,6,0,0,0,2,0,0,0,0,0,0,0,0,1},
         {1,6,6,0,0,0,0,0,0,0,0,0,0,6,6,0,0,0,0,1},
         {1,6,6,0,0,0,0,0,0,0,0,0,0,6,6,0,0,1,1,1},
@@ -270,8 +270,8 @@ void setUpJN1Scene() {
         {1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,1},
         {1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,1},
         {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-        {1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1},
-        {1,2,1,2,0,0,0,0,3,1,3,0,0,0,0,0,4,1,4,1},
+        {1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1},
+        {1,0,2,1,2,0,0,0,3,1,3,0,0,0,0,0,4,1,4,1},
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
     };
     
