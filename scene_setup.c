@@ -198,10 +198,10 @@ void setUpCI1Scene() {
     static SceneName CI1ExitToScenes[4] = {JN1, START, CI2, -1};
     CI1Scene.exitToScenes = CI1ExitToScenes;
     
-    clue_island_one.trueClue = ("This is the true clue in clue island one");
-    clue_island_one.falseClues[0] = ("ThIs Is (1) fAlSe ClUe In ClUe IsLaNd OnE");
-    clue_island_one.falseClues[1] = ("ThIs Is (2) fAlSe ClUe In ClUe IsLaNd OnE");
-    clue_island_one.falseClues[2] = ("jy dthkryyt fu7ilt fify uy");
+    clue_island_one.trueClue = ("Your sacrifice is downright inverted");
+    clue_island_one.falseClues[0] = ("The monster holds the key to victory");
+    clue_island_one.falseClues[1] = ("Four though they may be, dull should their edge be");
+    clue_island_one.falseClues[2] = ("The pumpkins may contain a secret tool");
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -241,10 +241,10 @@ void setUpCI2Scene() {
     static SceneName CI2ExitToScenes[4] = {JN1, CD1, -1, CI1};
     CI2Scene.exitToScenes = CI2ExitToScenes;
     
-    clue_island_two.trueClue = ("tcl2");
-    clue_island_two.falseClues[0] = ("ThIs Is (1) fAlSe ClUe In ClUe IsLaNd TwO");
-    clue_island_two.falseClues[1] = ("ThIs Is (2) fAlSe ClUe In ClUe IsLaNd TwO");
-    clue_island_two.falseClues[2] = ("jy dthkryyt fu7ilt fify uy");
+    clue_island_two.trueClue = ("Your victory is your world inverted");
+    clue_island_two.falseClues[0] = ("When in doubt, go up and about");
+    clue_island_two.falseClues[1] = ("A frog-like goblin, a princess-like thee");
+    clue_island_two.falseClues[2] = ("Grey is go, green is no");
 }
 
 
