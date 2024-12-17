@@ -24,9 +24,7 @@ typedef enum {
     DEATH,
     GAMEOVER,
     STARTING_POINT_DEATH_END,
-    END,
-    
-    X
+    END
 } SceneName;
 
 // Enum for main menu options
