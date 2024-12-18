@@ -30,14 +30,13 @@ int main(void) {
     setUpCASTLE();
     setUpQueenRoom();
     
-    int frameNo = 0;
-    int maxFN = 1e5;
+    unsigned int frameNo = 0;
     
     int gameoverFrame = 0;
     int rebirthFrame = 0;
     int ressurectionFrame = 0;
-
-    int starting_point_death_intialized = 0;
+    
+    int starting_point_death_initialised = 0;
         
     int endSceneInitialised = 0;
     int deadQueenFrame = 0;
@@ -77,7 +76,7 @@ int main(void) {
             
             frameNo = 0;
             gameoverFrame = 0;
-
+            
             starting_point_death_initialised = 0;
             
             endSceneInitialised = 0;
@@ -257,12 +256,11 @@ int main(void) {
                 break;
                 
             case STARTING_POINT_DEATH_END:
-                
-                if (!starting_point_death_intialized)  {
+                if (!starting_point_death_initialised) {
                     frameNo = 0;
-                    starting_point_death_intialized = 1;
+                    starting_point_death_initialised = 1;
                 }
-                
+            
                 if (frameNo>120) warrior.sceneName = GAMEOVER;
                 else {
                     drawTextBox((Rectangle){0, 0, GetMonitorWidth(0), GetMonitorHeight(0)}, "", 30, BLACK, BLACK, RED);
@@ -322,7 +320,7 @@ int main(void) {
                 break;
         }
         
-        frameNo = (frameNo+1)%maxFN;
+        frameNo++;
         
         EndDrawing();
     }
