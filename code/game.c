@@ -36,6 +36,8 @@ int main(void) {
     int gameoverFrame = 0;
     int rebirthFrame = 0;
     int ressurectionFrame = 0;
+
+    int starting_point_death_intialized = 0;
         
     int endSceneInitialised = 0;
     int deadQueenFrame = 0;
@@ -253,6 +255,12 @@ int main(void) {
                 break;
                 
             case STARTING_POINT_DEATH_END:
+                
+                if (!starting_point_death_intialized)  {
+                    frameNo = 0;
+                    starting_point_death_intialized = 1;
+                }
+                
                 if (frameNo>120) warrior.sceneName = GAMEOVER;
                 else {
                     drawTextBox((Rectangle){0, 0, GetMonitorWidth(0), GetMonitorHeight(0)}, "", 30, BLACK, BLACK, RED);
