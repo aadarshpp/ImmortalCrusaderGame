@@ -77,7 +77,7 @@ int main(void) {
             frameNo = 0;
             gameoverFrame = 0;
             
-            starting_point_death_initialised  = 0;
+            starting_point_death_initialised = 0;
             
             endSceneInitialised = 0;
             inFin = 0;
@@ -210,18 +210,23 @@ int main(void) {
                 
              case DEATH:
              
+                int death_initialised = (!dead);
+             
                 if (!dead) {
                     ressurections--;
                     dead = 1;
                 }
             
-                if (gameoverFrame==0) {
-                    PlayMusicStream(mustardMusic);
+                if (death_initialised) {
                     frameNo = 0;
-                    gameoverFrame= (!miniGameDeath) ? (frameNo + 18*10) : -1;
+                    gameoverFrame = 0;
+                    if (!miniGameDeath){
+                        gameoverFrame = frameNo + 18*10;
+                        PlayMusicStream(mustardMusic);
+                    }
                     rebirthFrame= gameoverFrame + 18*5;
                     ressurectionFrame= rebirthFrame+18*15;
-                } else if (frameNo<gameoverFrame) {
+                } else if ((frameNo<gameoverFrame) && !miniGameDeath) {
                     UpdateMusicStream(mustardMusic);
                     DrawTexture(BgImages[goblin.sceneName], 0, 0, WHITE);
                     for (int i=0; i<=ressurections; i++) DrawTexture(phoenixFeather, 60 + phoenixFeather.width*i, 10, WHITE);
@@ -245,13 +250,12 @@ int main(void) {
                     gameoverFrame = 0;
                     frameNo = 0;
                     dead = 0;
+                    miniGameDeath = 0;
                     
                     if (ressurections<0 || (abs(goblin.x-warrior.x)<=10 && abs(goblin.y-warrior.y)<=10)) {
                         warrior.sceneName = STARTING_POINT_DEATH_END;
                     }
                 }
-                
-                miniGameDeath = 0;
                 
                 break;
                 
