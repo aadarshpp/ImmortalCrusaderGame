@@ -5,10 +5,15 @@
 #include "character_setup.c"
 
 #ifndef INTEL_RESOURCE_PATH
-#define INTEL_RESOURCE_PATH "C:/Immortal Crusade/Intle_Resources"
+#define INTEL_RESOURCE_PATH "C:/immortal_crusader/Intle_Resources"
 #endif
 
-int screenWidth,screenHeight, gameOvertowerTime, count=0, intleState[4]={0,0,0,0};
+typedef enum{
+    no=0,
+    yes,
+    in
+}State;
+int screenWidth,screenHeight, count=0, intleState[4]={0,0,0,0};
 bool trigger, gameOver;
 
 Rectangle chainPos = {0, 0, 5,200};
@@ -31,63 +36,63 @@ void setPass(){
         pt--;
     }
 }
-
-void getGuess(){
-    
-    int key = GetCharPressed();// Check if a key is pressed
-    
-    while (key > 0) {// Only add printable characters and limit input length
-        if (key >= 48 && key <= 57 && count < 4) {
-            input[count++] = key-48;
-        }
-        key = GetCharPressed(); // Check next character
+bool win(){//check if you've won
+    for(int i=0;i<4;i++){
+        if(intleState[i]!=yes)
+            return false;
     }
-
-    
-    
+    return true;
+}
+void drawNums(){
+    int x=intlepos.x;
     for(int i=0;i<count;i++){
-        int inp=input[i];
-        DrawTexture(nums[inp], intlepos.x+190*i, intlepos.y, WHITE);
-    }
-}
-
-void checkGuess(){
-    
-    for(int i=0;i<4;i++){
-        if(input[i]==pass[i]){//in correct pos
-            intleState[i]=1;
-            continue;
-        }
-        for(int j=0;j<4;j++){
-            if(j!=i && input[i]==pass[j])// number is present at diff pos
-                intleState[i]=2;
-        }
-    }
-}
-
-void drawChain(int f){
-    chainPos.x += 1;
-    int y=460;
-    for(int i=0;i<4;i++){
-        DrawTexture(chainsaw[f],chainPos.x,y,WHITE);
-        y+=40;
+        DrawTexture(nums[input[i]],x+190*i,intlepos.y,WHITE);
     }
 }
 
 void drawBox(){
-    int x=intlepos.x, type=2;
+    int x=intlepos.x, type=no;
     for(int i=0;i<4;i++){
         type=intleState[i];
-        DrawTexture(intlebox[type],x,intlepos.y,WHITE);
-        x+=190;
+        DrawTexture(intlebox[type],x+190*i,intlepos.y,WHITE);
+    }
+    drawNums();
+}
+
+void drawChain(int f){
+    chainPos.x += 0.8f;
+    int y=535;
+    for(int i=0;i<2;i++){
+        DrawTexture(chainsaw[f],chainPos.x,y,WHITE);
+        y+=37;
     }
 }
-void drawNums(){
-    int x=intlepos.x;
-    for(int i=0;i<4;i++){
-        DrawTexture(nums[input[i]],x,intlepos.y,WHITE);
-        x+=190;
+
+void getGuess(){
+    
+    drawBox();
+    int key = GetCharPressed();// Check if a key is pressed
+    while (key > 0) {// Only add printable characters and limit input length
+        if (key >= 48 && key <= 57 && count < 4) {//48 is key for num 0, 57 for num 9
+            input[count++] = key-48;
+        }
+        key = GetCharPressed(); // Check next character
     }
+}
+
+void checkGuess(){
+ 
+    for(int i=0;i<4;i++){
+        if(input[i]==pass[i]){//in correct pos
+            intleState[i]=yes;
+            continue;
+        }
+        for(int j=0;j<4;j++){
+            if(j!=i && input[i]==pass[j])// number is present at diff pos
+                intleState[i]=in;
+        }
+    }
+    drawBox();
 }
 
 typedef enum {
@@ -110,14 +115,10 @@ IntelGameState intelMain()
     screenHeight = (int)GetScreenHeight();
     playpos.y=585;
     trigger = false;
-    gameOver = false;
     
     setPass();
     
     Texture bg=LoadTexture(INTEL_RESOURCE_PATH "/IntleBG.png");
-    Texture tow=LoadTexture(INTEL_RESOURCE_PATH "/Tower_Grey.png");
-    
-    Texture player=LoadTexture(INTEL_RESOURCE_PATH "/Jump (32x32).png");
     
     char filePath[300];
     fillImageArrayIntel(chainsaw,"MySaw", 8);
@@ -126,11 +127,11 @@ IntelGameState intelMain()
         nums[i] = LoadTexture(filePath);
     }
     
-    intlebox[0]=LoadTexture(INTEL_RESOURCE_PATH "/Intle/no.png");
-    intlebox[1]=LoadTexture(INTEL_RESOURCE_PATH "/Intle/yes.png");
-    intlebox[2]=LoadTexture(INTEL_RESOURCE_PATH "/Intle/in.png");
+    intlebox[no]=LoadTexture(INTEL_RESOURCE_PATH "/Intle/no.png");
+    intlebox[yes]=LoadTexture(INTEL_RESOURCE_PATH "/Intle/yes.png");
+    intlebox[in]=LoadTexture(INTEL_RESOURCE_PATH "/Intle/in.png");
     
-    Texture gameover=LoadTexture(INTEL_RESOURCE_PATH "/GameOver.png");
+    Texture rules=LoadTexture(INTEL_RESOURCE_PATH "/rules.png");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
@@ -139,31 +140,19 @@ IntelGameState intelMain()
     unsigned int frameNo = 0;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        
         if (playpos.x<=40) {
             return PREV_SCENE_INTEL;
         }
         
-        if (chainPos.x >= playpos.x && !gameOver) {
+        if (chainPos.x+38 >= playpos.x) {
             gameOver = true;
-            gameOvertowerTime = GetTime();
         }
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
             
             if (gameOver) {
-                
                 return SAWED;
-                
-                DrawTexture(gameover, 0, 0, WHITE);
-                // End the game loop after 5 seconds
-                if (GetTime() - gameOvertowerTime > 5){
-                    EndDrawing();
-                    break;
-                }
-                EndDrawing();
-                continue;
             }
             
             bool keyRight = IsKeyDown(KEY_RIGHT);
@@ -175,14 +164,14 @@ IntelGameState intelMain()
             else if (keyLeft && !keyRight)  { playpos.x -= 4; warrior.currentWalk=WALK_LEFT; warrior.currentStill= STILL_LEFT;}
             
             if (playpos.x>=1700) {
-                playpos.x = 1700;
+                playpos.x = 1700;//don't update x past 1700
                 trigger = true;
             }
             // Handle backspace
             if (IsKeyPressed(KEY_BACKSPACE) && count > 0) {
                 count--;
                 for(int i=0;i<4;i++){
-                    intleState[i]=0;
+                    intleState[i]=no;//make it all grey again
                 }
             }
             
@@ -191,6 +180,7 @@ IntelGameState intelMain()
             }
             
             DrawTexture(bg,0,0,WHITE);
+            DrawTexture(rules, 70,70,WHITE);
             
             if (prevX!=playpos.x) {
                 animate(warrior.animationFramesArray[warrior.currentWalk], warrior.animationFramesLengths[warrior.currentWalk], 40, frameNo, playpos.x, playpos.y);
@@ -201,26 +191,12 @@ IntelGameState intelMain()
             
             if(trigger){
                 drawChain(cframe);
-                drawBox();
-                getGuess();
+                count<4?getGuess():checkGuess();
             }
             
-            if(count>=4){
-                checkGuess();
-                drawBox();
-                drawNums();
-                
-                int correct = 1;
-                for (int i=0; i<4; i++) {
-                    if (input[i]!=pass[i]) {
-                        correct=0;
-                        break;
-                    }
-                }
-                
-                if(correct) return SOLVED;
+            if(win()){
+                return SOLVED;
             }
-            
             
         EndDrawing();
         
