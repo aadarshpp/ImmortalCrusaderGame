@@ -77,6 +77,8 @@ int main(void) {
             
             frameNo = 0;
             gameoverFrame = 0;
+
+            starting_point_death_initialised = 0;
             
             endSceneInitialised = 0;
             inFin = 0;
